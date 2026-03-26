@@ -53,6 +53,8 @@ def cmd_markets(args):
                 "id": market.get("id"),
                 "slug": market.get("slug"),
                 "question": market.get("question"),
+                "description": market.get("description"),
+                "resolutionSource": market.get("resolutionSource"),
                 "active": market.get("active"),
                 "closed": market.get("closed"),
                 "liquidity": market.get("liquidity"),

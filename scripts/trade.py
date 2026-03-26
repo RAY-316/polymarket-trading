@@ -109,6 +109,12 @@ def cmd_healthcheck(_args):
         checks["public_time"] = response.json()
     except Exception as exc:
         checks["public_http_error"] = str(exc)
+    try:
+        geoblock = requests.get("https://polymarket.com/api/geoblock", timeout=20)
+        checks["geoblock_status"] = geoblock.status_code
+        checks["geoblock"] = geoblock.json()
+    except Exception as exc:
+        checks["geoblock_error"] = str(exc)
     dump(checks)
 
 
