@@ -1,0 +1,4 @@
+interface:
+  display_name: "Polymarket Trading"
+  short_description: "Query Polymarket and place trades safely."
+  default_prompt: "Use $polymarket-trading to fetch market data, prepare bridge actions, and place a Polymarket order safely."

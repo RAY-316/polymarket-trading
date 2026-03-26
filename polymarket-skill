@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ENV_FILE="${POLYMARKET_ENV_FILE:-$HOME/.config/polymarket.env}"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [[ ! -f "$ENV_FILE" ]]; then
+  echo "Missing env file: $ENV_FILE" >&2
+  exit 1
+fi
+
+source "$ENV_FILE"
+
+if [[ $# -eq 0 ]]; then
+  echo "Usage: ./polymarket-skill <market|bridge|trade> [args...]" >&2
+  exit 1
+fi
+
+cmd="$1"
+shift
+
+case "$cmd" in
+  market)
+    exec uv run --python 3.11 --with requests "$ROOT_DIR/scripts/market_info.py" "$@"
+    ;;
+  bridge)
+    exec uv run --python 3.11 --with requests "$ROOT_DIR/scripts/bridge.py" "$@"
+    ;;
+  trade)
+    exec uv run --python 3.11 --with py-clob-client "$ROOT_DIR/scripts/trade.py" "$@"
+    ;;
+  *)
+    echo "Unknown command: $cmd" >&2
+    echo "Usage: ./polymarket-skill <market|bridge|trade> [args...]" >&2
+    exit 1
+    ;;
+esac
